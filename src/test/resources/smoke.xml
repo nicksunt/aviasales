@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name = "aviasales">
+    <parameter name="OS" value="Windows"/>
+     <test name = "aviasalesSmoke">
+         <groups>
+             <run>
+                 <include name="SMOKE"/>
+             </run>
+         </groups>
+
+         <packages>
+             <package name="uiTests.tests.*"/>
+         </packages>
+    </test>
+</suite>
