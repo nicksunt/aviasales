@@ -1,8 +1,12 @@
 package uiTests.pageObject;
 
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import uiTests.preconditions.DateTrip;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,10 +14,12 @@ public class SearchPage extends AbstractPage {
 
     DateTrip dateTrip = new DateTrip();
 
-    @FindBy(xpath = ("//div[@class='segment-route__endpoint origin']//div[@class='segment-route__city']"))
+    private final String locatorResultsDeparture = "//div[@class='segment-route__endpoint origin']//div[@class='segment-route__city']";
+    @FindBy(xpath = (locatorResultsDeparture))
     List<WebElement> allSearchResultDeparture;
 
-    @FindBy(xpath = ("//div[@class='segment-route__endpoint destination']//div[@class='segment-route__city']"))
+    private  final String locatorResultDestination = "//div[@class='segment-route__endpoint destination']//div[@class='segment-route__city']";
+    @FindBy(xpath = (locatorResultDestination))
     List<WebElement> allSearchResultDestination;
 
     private final String locatorListSearchResult = "//div[@class='segment-route__endpoint origin']//div[@class='segment-route__date']";
@@ -26,32 +32,45 @@ public class SearchPage extends AbstractPage {
     @FindBy(xpath = ("//div[@class='buy-button']//button//div[@data-test-id='text']/div"))
     List<WebElement> allButtonBuyTicketText;
 
+    @FindBy(xpath = ("(//div[@class='buy-button']//button//div[@data-test-id='text']/div)[10]"))
+    WebElement lastButtonBuyTicketText;
 
-    public boolean isAllFlightsHasValidDepartureCity(String cityFrom, String cityTo) throws InterruptedException {
-        //  waitForPresenceOfAllElementsLocatedBy(locatorListSearchResult);
-        List<String> cityDepartureToList = new ArrayList<>();
-        List<String> cityDepartureFromList = new ArrayList<>();
-        Thread.sleep(2000);
-        for (int i = 0; i < allSearchResultDeparture.size(); i++) {
+
+
+    public boolean isAllFlightsHasValidDepartureCity (String cityFrom, String cityTo) throws InterruptedException {
+        Thread.sleep(5000);
+      waitForElementToBeClickable(lastButtonBuyTicketText);
+
+        List<String> listCityDepartTo = new ArrayList<>();
+        List<String> listCityDepartBack = new ArrayList<>();
+                  for (int i = 0; i < allSearchResultDeparture.size(); i++) {
             if (i % 2 == 0)
-                cityDepartureToList.add(allSearchResultDeparture.get(i).getText());
-            else cityDepartureFromList.add((allSearchResultDeparture.get(i).getText()));
+                listCityDepartTo.add(allSearchResultDeparture.get(i).getText());
+            else listCityDepartBack.add((allSearchResultDeparture.get(i).getText()));
         }
-        return (cityDepartureToList.stream().allMatch(x -> x.equals(cityFrom))
-                && cityDepartureFromList.stream().allMatch(x -> x.equals(cityTo)));
+        System.out.println(listCityDepartTo);
+        System.out.println(listCityDepartBack);
+        return (listCityDepartTo.stream().allMatch(x -> x.equals(cityFrom))
+                && listCityDepartBack.stream().allMatch(x -> x.equals(cityTo)));
     }
 
-    public boolean isAllFlightsHasValidDestinationCity(String cityFrom, String cityTo) {
+    public boolean isAllFlightsHasValidDestinationCity(String cityFrom, String cityTo) throws InterruptedException {
+        Thread.sleep(5000);
+        waitForElementToBeClickable(lastButtonBuyTicketText);
+
         List<String> listCityDestinationTo = new ArrayList<>();
-        List<String> listCityDestinationFrom = new ArrayList<>();
-        for (int i = 0; i < allSearchResultDestination.size(); i++) {
+        List<String> listCityDestinationBack = new ArrayList<>();
+                 for (int i = 0; i < allSearchResultDestination.size(); i++) {
             if (i % 2 == 0)
                 listCityDestinationTo.add(allSearchResultDestination.get(i).getText());
-            else listCityDestinationFrom.add((allSearchResultDestination.get(i).getText()));
+            else listCityDestinationBack.add((allSearchResultDestination.get(i).getText()));
         }
-        return (listCityDestinationTo.stream().allMatch(x -> x.equals("Пхукет"))
-                && listCityDestinationFrom.stream().allMatch(x -> x.equals("Москва")));
+        System.out.println(listCityDestinationTo);
+        System.out.println(listCityDestinationBack);
+        return (listCityDestinationTo.stream().allMatch(x -> x.equals(cityTo))
+                && listCityDestinationBack.stream().allMatch(x -> x.equals(cityFrom)));
     }
+
 
     public boolean isAllDatesDepartValid() {
 
@@ -76,10 +95,18 @@ public class SearchPage extends AbstractPage {
         return listDayReturn.stream().allMatch(x -> x.contains(validDateReturn));
     }
 
-    public boolean isExistValidButtonBuyTicket() {
-        return allButtonBuyTicket.size() ==10 &&
-                allButtonBuyTicket.stream().allMatch(WebElement::isDisplayed) &&
-                allButtonBuyTicket.stream().allMatch(WebElement::isEnabled) &&
-                allButtonBuyTicketText.stream().allMatch(x -> x.getText().equals("Выбрать билет"));
+
+
+
+    public boolean isExistValidButtonBuyTicket() throws InterruptedException {
+        Thread.sleep(5000);
+        waitForElementToBeClickable(lastButtonBuyTicketText);
+
+
+       //        return  allButtonBuyTicketText.stream().allMatch(WebElement::isDisplayed) &&
+//                allButtonBuyTicketText.stream().allMatch(WebElement::isEnabled) &&
+         return
+                 allButtonBuyTicketText.stream().allMatch(WebElement::isDisplayed) &&
+                 allButtonBuyTicketText.stream().allMatch(x -> x.getText().equals("Выбрать билет"));
     }
 }

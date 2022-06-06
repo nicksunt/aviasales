@@ -18,7 +18,7 @@ public class WebDriverSingleton {
         return webDriver;
     }
 
-    public static void closeDriver() throws InterruptedException {
+    public static void closeDriver() {
         webDriver.quit();
         webDriver = null;
 

@@ -9,74 +9,46 @@ import uiTests.pageObject.HomeAviasalesPage;
 import uiTests.pageObject.SearchPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import uiTests.preconditionAction.PreconditionForTestSearchPage;
 
 public class TestSearchResult extends BaseAbstractClass {
 
-    SearchPage searchPage = new SearchPage();
-    HomeAviasalesPage homePageAviasales = new HomeAviasalesPage();
-    AscendingOrderPricePage ascendingOrderPricePage = new AscendingOrderPricePage();
-    AuthorizationPage authorizationPage = new AuthorizationPage();
-   // DataParameters dataParameters = new DataParameters();
+     SearchPage searchPage = new SearchPage();
+     AscendingOrderPricePage ascendingOrderPricePage = new AscendingOrderPricePage();
+     DataParameters dataParameters = new DataParameters();
+
+    public static int count2 = 0;
 
     @DataProvider(name = "someData")
     public Object[][] someData(){
-        return new Object[][]{
-                new Object[]{DataParameters.builder()
-                        .cityFrom("Москва")
-                        .cityTo("Пхукет")
-                        .adultQuan(2)
-                        .build()},
-
-//                new Object[]{DataParameters.builder()
-//                        .cityFrom("Варшава")
-//                        .cityTo("Ларнака")
-//                        .adultQuan(1)
-//                        .build()},
-                };
-        }
-   //    return dataParameters.parametersForSearchTicket;
+        return dataParameters.parametersForSearchTicket;
+    }
 
 
     @Test (dataProvider = "someData", groups = "SMOKE")
-    public void checkDataSearchResult(DataParameters dataParameters) throws InterruptedException {  //,   String placeDepart, String placeArrival, int adultQuan) throws InterruptedException {
 
-      //  authorizationPage.openPageHome().authorization();
-        homePageAviasales.openPageHome()
-                .fillDeparturePlace(dataParameters.getCityFrom())
-                .fillArrivalPlace(dataParameters.getCityTo())
-                .chooseDateDeparture()
-                .setAdultQuantity(dataParameters.getAdultQuan()-1)
-                .unChekboxGoToAnotherPage()
-                .getSearchResult();
+    public void checkExistBtnBuyTicket (String cityFrom,String cityTo, int adultQuan) throws InterruptedException {
 
-        Assert.assertTrue(searchPage.isAllFlightsHasValidDepartureCity(dataParameters.getCityFrom(), dataParameters.getCityTo()));
+        new PreconditionForTestSearchPage().getPreparedActionForSearchPage(cityFrom, cityTo, adultQuan);
+        Assert.assertTrue(searchPage.isExistValidButtonBuyTicket());
+    }
 
-        Assert.assertTrue(searchPage.isAllFlightsHasValidDestinationCity(dataParameters.getCityTo(), dataParameters.getCityFrom()));
+        @Test (dataProvider = "someData", groups = "SMOKE")
+        public void checkDataSearchResult (String cityFrom,String cityTo, int adultQuan) throws InterruptedException {
 
+        new PreconditionForTestSearchPage().getPreparedActionForSearchPage(cityFrom, cityTo, adultQuan);
 
+        Assert.assertTrue(searchPage.isAllFlightsHasValidDepartureCity(cityFrom, cityTo));
+        Assert.assertTrue(searchPage.isAllFlightsHasValidDestinationCity(cityFrom, cityTo));
 
         Assert.assertTrue(searchPage.isAllDatesDepartValid());
-
         Assert.assertTrue(searchPage.isAllDatesReturnValid());
-
-
-
-        Assert.assertTrue(searchPage.isExistValidButtonBuyTicket());
-
     }
 
 
     @Test (dataProvider = "someData")
-    public void checkDataSearchResult1 (DataParameters dataParameters) throws InterruptedException {  //,   String placeDepart, String placeArrival, int adultQuan) throws InterruptedException {
-
-        //  authorizationPage.openPageHome().authorization();
-        homePageAviasales.openPageHome()
-                .fillDeparturePlace(dataParameters.getCityFrom())
-                .fillArrivalPlace(dataParameters.getCityTo())
-                .chooseDateDeparture()
-                .setAdultQuantity(dataParameters.getAdultQuan() - 1)
-                .unChekboxGoToAnotherPage()
-                .getSearchResult();
+    public void checkOrderPrice (String cityFrom,String cityTo, int adultQuan) throws InterruptedException {
+        new PreconditionForTestSearchPage().getPreparedActionForSearchPage(cityFrom, cityTo, adultQuan);
         Assert.assertTrue(ascendingOrderPricePage.isValidPriceSort());
     }
 }

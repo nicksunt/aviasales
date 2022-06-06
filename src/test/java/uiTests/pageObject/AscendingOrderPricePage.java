@@ -17,19 +17,21 @@ public class AscendingOrderPricePage extends AbstractPage{
     WebElement buttonSort;
 
     @FindBy(xpath=("//input[@value='cheapest']//ancestor::label//span"))
-    WebElement firstCheapest;
+    WebElement radioBtnFirstCheapest;
 
 
     public boolean isValidPriceSort() throws InterruptedException {
+        Thread.sleep(10000);
+
 
         JavascriptExecutor jse = (JavascriptExecutor)driver;
-        jse.executeScript("window.scrollBy(0,600)", "");
-
+        jse.executeScript("window.scrollBy(0,500)", "");
+        waitForElementToBeClickable(buttonSort);
         buttonSort.click();
 
-        waitForElementToBeClickable(firstCheapest);
-        firstCheapest.click();
-        Thread.sleep(3000);
+        waitForElementToBeClickable(radioBtnFirstCheapest);
+        radioBtnFirstCheapest.click();
+        Thread.sleep(10000);
 
         List<Integer> listPriceParsed = new ArrayList<>();
         for (WebElement s : priceList) {

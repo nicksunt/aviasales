@@ -8,12 +8,12 @@ import uiTests.webDriverSingleton.WebDriverSingleton;
 
 public class BaseAbstractClass {
 
-    @BeforeClass
+    @BeforeTest
     public  void openChrome() {
         WebDriverSingleton.getDriver().manage().window().maximize();
     }
 
-    @AfterClass
+    @AfterTest
     public  void tearDown() throws InterruptedException {
         WebDriverSingleton.closeDriver();
 
