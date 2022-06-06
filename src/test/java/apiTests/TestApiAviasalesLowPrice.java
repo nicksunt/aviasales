@@ -10,7 +10,7 @@ public class TestApiAviasalesLowPrice {
 
     private final static String url = "https://api.travelpayouts.com/aviasales/v3/prices_for_dates?origin=MOW&destination=DXB&currency=usd&departure_at=2022-07-01&return_at=2022-07-21&sorting=price&direct=true&limit=10&token=3ede34968c6e4d84fd585357e8208547";
 
-    @Test
+    @Test(groups = {"smoke"})
     public void checkStatusCode()  {
 
         CustomHttpClient customHttpClient = new CustomHttpClient();
@@ -19,7 +19,7 @@ public class TestApiAviasalesLowPrice {
         assertEquals(customHttpClient.getStatusCode(), 200);
     }
 
-    @Test
+    @Test(groups = {"smoke"})
     public void checkAllObjectsHavePrice() throws IOException {
 
         CustomHttpClient customHttpClient = new CustomHttpClient();
@@ -30,7 +30,7 @@ public class TestApiAviasalesLowPrice {
         assertTrue(fromJson.getData().stream().allMatch(x->x.getPrice()>0));
     }
 
-    @Test
+    @Test(groups = {"smoke"})
     public void checkPlaceDepartAndDestination() throws IOException {
 
         CustomHttpClient customHttpClient = new CustomHttpClient();

@@ -30,8 +30,8 @@ public class AbstractPage {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
         }
 
-    protected void waitForElementToBeClickable(WebElement webElement) {
-        new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS)).until(ExpectedConditions
+    protected WebElement waitForElementToBeClickable(WebElement webElement) {
+       return new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS)).until(ExpectedConditions
                 .elementToBeClickable(webElement));
     }
 

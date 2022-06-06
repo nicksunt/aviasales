@@ -24,8 +24,15 @@ public class HomeAviasalesPage extends AbstractPage {
     @FindBy(xpath=("//input[@placeholder='Куда']"))
      WebElement fieldArrivalPlace;
 
+    @FindBy(xpath=("//input[@placeholder='Куда']/.."))
+    WebElement forEmptyFieldArrivalPlace;
+
+
     @FindBy(xpath=("//input[@placeholder='Когда']"))
      WebElement chooseMonthTo;
+
+    @FindBy(xpath=("//input[@placeholder='Когда']/../.."))
+    WebElement forEmptyFieldDepartDate;
 
     @FindBy(xpath=("//input[@placeholder='Обратно']"))
     WebElement chooseMonthFrom;
@@ -33,11 +40,6 @@ public class HomeAviasalesPage extends AbstractPage {
 
     @FindBy(xpath = ("//div[@class='calendar-day__date']"))
     List<WebElement> listDays;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-    @FindBy(xpath = ("//div[@class='calendar__month'])[2]//div[@class='calendar-day__date']"))
-    List<WebElement> listDays2;
-/////////////////////////////////////////////////////////////////////////////////////////////
 
     @FindBy(xpath=("//button[@type='submit']"))
     WebElement buttonSubmit;
@@ -57,25 +59,16 @@ public class HomeAviasalesPage extends AbstractPage {
     }
 
     public HomeAviasalesPage fillDeparturePlace(String departPlace) throws InterruptedException {
-   Thread.sleep(1000);
+        Thread.sleep(1000);
         Actions action = new Actions(driver);
         action.click(fieldDeparturePlace).build().perform();
         action.sendKeys(Keys.DELETE).build().perform();
-      //  actions.sendKeys(departPlace).build().perform();
-
-//
         Thread.sleep(500);
         fieldDeparturePlace.sendKeys(departPlace);
         return this;
     }
 
     public HomeAviasalesPage fillArrivalPlace(String arrivalPlace) throws InterruptedException {
-//        Actions actions = new Actions(driver);
-//        Thread.sleep(500);
-//        actions.click(fieldArrivalPlace).build().perform();
-//        actions.sendKeys(arrivalPlace).build().perform();
-//
-         //  fieldArrivalPlace.clear();
         fieldArrivalPlace.sendKeys(arrivalPlace);
         return this;
     }
@@ -96,18 +89,18 @@ public class HomeAviasalesPage extends AbstractPage {
         String monthReturn = DateParse.getMonth(dateTrip.monthNumberReturn);
         String numDayDepart = dateTrip.stringNumDayDepart;
         String numDayReturn = dateTrip.stringNumDayReturn;
+        logger.info(numDayDepart + " " + monthDepart + " by " +numDayReturn + " " +  monthReturn );
 
 
         Actions action = new Actions(driver);
         action.moveToElement(chooseMonthTo).click().build().perform();
-       // chooseMonthTo.click();
+
         WebElement element = calendar.stream().filter(x -> x.getText().contains(monthDepart)).findFirst().get();
         element.click();
         Thread.sleep(2000);
         WebElement dayNumDepart = listDays.stream().filter(x -> x.getText().equals(numDayDepart)).findFirst().get();
         dayNumDepart.click();
 
-      //   chooseMonthFrom.click();
         action.moveToElement(chooseMonthFrom).click().build().perform();
         WebElement element1 = calendar.stream().filter(x -> x.getText().contains(monthReturn)).findFirst().get();
         element1.click();
@@ -117,6 +110,13 @@ public class HomeAviasalesPage extends AbstractPage {
         return this;
     }
 
+    public String getTextForEmptyFieldArrivalPlace(){
+       return (forEmptyFieldArrivalPlace.getAttribute("data-error-message"));
+    }
+
+    public String getTextForEmptyFieldDate(){
+        return (forEmptyFieldDepartDate.getAttribute("data-error-message"));
+    }
 
     public HomeAviasalesPage setAdultQuantity(int adultQuan){
         passengersQuantity.click();
@@ -128,7 +128,7 @@ public class HomeAviasalesPage extends AbstractPage {
     }
 
     public SearchPage getSearchResult() throws InterruptedException {
-        Thread.sleep(3000);
+        waitForElementToBeClickable(buttonSubmit);
         buttonSubmit.click();
         return new SearchPage();
     }

@@ -1,15 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name = "aviasales">
-    <parameter name="OS" value="Windows"/>
-     <test name = "aviasalesSmoke">
-         <groups>
-             <run>
-                 <include name="SMOKE"/>
-             </run>
-         </groups>
-
-         <packages>
-             <package name="uiTests.tests.*"/>
-         </packages>
+<suite name="aviasales">
+    <test name="TestTwo">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="uiTests.tests.TestAuthorization"/>
+            <class name="uiTests.tests.TestSearchResult"/>
+            <class name="apiTests.TestApiAviasalesLowPrice"/>
+        </classes>
     </test>
 </suite>

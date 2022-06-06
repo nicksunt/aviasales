@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="aviasales">
+    <test name="TestOne">
+        <groups>
+            <run>
+                <include name="regressions"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="uiTests.tests.TestSearchResult"/>
+            <class name="apiTests.TestApiAviasalesPriceOnWeek"/>
+            <class name="uiTests.tests.TestWithInvalidAuthorization"/>
+            <class name="uiTests.tests.TestWithInvalidData"/>
+        </classes>
+    </test>
+</suite>

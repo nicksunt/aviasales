@@ -10,12 +10,16 @@ public class TestAuthorization extends BaseAbstractClass {
     AuthorizationPage authorizationPage = new AuthorizationPage();
 
 
-    @Test(groups = "SMOKE")
+    @Test(groups = "smoke")
     public void checkAuthorization() throws InterruptedException {
 
         authorizationPage.openPageHome()
-                         .authorization();
-        Assert.assertEquals(authorizationPage.getTextButtonEnterExit(), "Выйти");
+                .openWindowAuthorization()
+                .fillPhoneNumber()
+                .fillPassword()
+                .authorization()
+                .switchToAnotherWindow();
 
+        Assert.assertEquals(authorizationPage.getTextButtonEnterExit(), "Выйти");
     }
 }

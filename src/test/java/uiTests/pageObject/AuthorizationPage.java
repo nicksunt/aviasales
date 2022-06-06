@@ -26,6 +26,9 @@ public class AuthorizationPage extends AbstractPage{
     @FindBy(xpath=("//button[@type='button' and contains(@data-test-id, 'button')]"))
      WebElement buttonEnterExit;
 
+    @FindBy(xpath=("//div[@class ='login_form_container']//div/div"))
+    WebElement textForEmptyFieldAuthorization;
+
     String mainWinID;
     String newWinID;
 
@@ -34,7 +37,7 @@ public class AuthorizationPage extends AbstractPage{
         return this;
     }
 
-    public void authorization() throws InterruptedException {
+    public AuthorizationPage openWindowAuthorization() {
         profile.click();
         buttonEnterExit.click();
         enterWithFB.click();
@@ -44,22 +47,42 @@ public class AuthorizationPage extends AbstractPage{
         mainWinID = iterator.next();
         newWinID = iterator.next();
         driver.switchTo().window(newWinID);
+        return this;
+    }
 
-        fieldPhoneNumber.sendKeys("+375293276354");
+    public AuthorizationPage fillPhoneNumber() throws InterruptedException {
+        Thread.sleep(1000);
+            waitForVisibilityOfElement(fieldPhoneNumber).sendKeys("+375293276354");
+            return this;
+        }
+    public AuthorizationPage fillPassword() throws InterruptedException {
+        Thread.sleep(1000);
         fieldPassword.sendKeys("ItAcAdEmIyA");
-        buttonEnter.click();
+        return this;
+    }
 
+    public AuthorizationPage authorization() throws InterruptedException {
+        Thread.sleep(1000);
+        buttonEnter.click();
+        return this;
+    }
+    public void switchToAnotherWindow(){
         try{
             if(waitForInvisibilityOfElement(fieldPhoneNumber))
                 driver.switchTo().window(mainWinID);
-            }
+        }
         catch (NoSuchWindowException e) {
             driver.switchTo().window(mainWinID);
         }
-        Thread.sleep(2000);
     }
 
-    public String getTextButtonEnterExit() {
+    public String getTextInvalidAuthorization() throws InterruptedException {
+        Thread.sleep(4000);
+      return textForEmptyFieldAuthorization.getText();
+    }
+
+    public String getTextButtonEnterExit() throws InterruptedException {
+        Thread.sleep(5000);
         profile.click();
         return buttonEnterExit.getText();
     }

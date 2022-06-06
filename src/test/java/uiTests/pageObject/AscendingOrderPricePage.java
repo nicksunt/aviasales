@@ -42,7 +42,7 @@ public class AscendingOrderPricePage extends AbstractPage{
                     int num = Integer.parseInt(String.valueOf(c));
                     integerList.add(num);
                 } catch (Exception e) {
-                    //todo log
+                    logger.info(c);
                 }
             }
             StringBuilder builder = new StringBuilder();
@@ -52,7 +52,9 @@ public class AscendingOrderPricePage extends AbstractPage{
             listPriceParsed.add(Integer.parseInt(builder.toString()));
         }
         int minPrice = Collections.min(listPriceParsed);
+        logger.info(minPrice + " price minimum ");
         int maxPrice = Collections.max(listPriceParsed);
+        logger.info(maxPrice + " price maximum");
         Collections.sort(listPriceParsed);
         return listPriceParsed.get(0)==minPrice && listPriceParsed.get(9)==maxPrice;
     }
