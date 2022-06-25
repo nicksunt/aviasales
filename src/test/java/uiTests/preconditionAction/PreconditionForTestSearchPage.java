@@ -10,7 +10,7 @@ public class PreconditionForTestSearchPage {
                 .fillDeparturePlace(cityFrom)
                 .fillArrivalPlace(cityTo)
                 .chooseDateDeparture()
-                .setAdultQuantity(adultQuan - 1)
+                .setAdultQuantity(adultQuan-1)
                 .unChekboxGoToAnotherPage()
                 .getSearchResult();
     }

@@ -22,7 +22,6 @@ public class TestSearchResult extends BaseAbstractClass {
         return dataParameters.parametersForSearchTicket;
     }
 
-
     @Test(dataProvider = "someData", groups = "smoke")
 
     public void checkExistBtnBuyTicket(String cityFrom, String cityTo, int adultQuan) throws InterruptedException {

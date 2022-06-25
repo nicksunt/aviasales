@@ -1,13 +1,17 @@
 package uiTests.pageObject;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import uiTests.preconditions.DateParse;
 import uiTests.preconditions.DateTrip;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import uiTests.tests.TestSearchResult;
 
+import java.time.Duration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -63,7 +67,8 @@ public class HomeAviasalesPage extends AbstractPage {
         Actions action = new Actions(driver);
         action.click(fieldDeparturePlace).build().perform();
         action.sendKeys(Keys.DELETE).build().perform();
-        Thread.sleep(500);
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@placeholder='Откуда']")));
         fieldDeparturePlace.sendKeys(departPlace);
         return this;
     }
@@ -80,7 +85,6 @@ public class HomeAviasalesPage extends AbstractPage {
             checkBoxOstrovok.click();
         return this;
     }
-
 
     public HomeAviasalesPage chooseDateDeparture() throws InterruptedException {
 
@@ -110,6 +114,8 @@ public class HomeAviasalesPage extends AbstractPage {
         return this;
     }
 
+
+
     public String getTextForEmptyFieldArrivalPlace(){
        return (forEmptyFieldArrivalPlace.getAttribute("data-error-message"));
     }
@@ -118,9 +124,10 @@ public class HomeAviasalesPage extends AbstractPage {
         return (forEmptyFieldDepartDate.getAttribute("data-error-message"));
     }
 
-    public HomeAviasalesPage setAdultQuantity(int adultQuan){
+    public HomeAviasalesPage setAdultQuantity(int adultQuan) throws InterruptedException {
         passengersQuantity.click();
         while (adultQuan!=0) {
+            Thread.sleep(2000);
             adultQuantity.click();
             adultQuan--;
         }

@@ -15,7 +15,7 @@ public class TestWithInvalidAuthorization extends BaseAbstractClass {
                 .openWindowAuthorization()
                 .fillPassword()
                 .authorization();
-        Assert.assertEquals(authorizationPage.getTextInvalidAuthorization(), "Неверный электронный адрес или номер телефона");
+        Assert.assertEquals(authorizationPage.getTextInvalidAuthorization(), "Неверные данные");
     }
 }
 

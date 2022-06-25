@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public class DateTrip {
 
-    private final int TERM_BEFORE_TRIP = 20;
-    private final int DURATION_TRIP = 10;
+    private final int TERM_BEFORE_TRIP = 10;
+    private final int DURATION_TRIP = 12;
 
     LocalDate dateNow = LocalDate.now();
     LocalDate dateDeparture = dateNow.plusDays(TERM_BEFORE_TRIP);

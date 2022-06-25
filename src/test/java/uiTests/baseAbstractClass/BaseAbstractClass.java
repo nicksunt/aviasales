@@ -8,15 +8,14 @@ import uiTests.webDriverSingleton.WebDriverSingleton;
 
 public class BaseAbstractClass {
 
-    @BeforeTest
+    @BeforeTest (groups = "smoke")
     public  void openChrome() {
         WebDriverSingleton.getDriver().manage().window().maximize();
     }
 
-    @AfterTest
-    public  void tearDown() throws InterruptedException {
+    @AfterTest (groups = "smoke")
+    public  void tearDown()  {
         WebDriverSingleton.closeDriver();
-
     }
 }
 

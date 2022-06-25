@@ -30,7 +30,7 @@ public class CustomHttpClient {
         return statusCode;
     }
 
-    public String getBody() throws IOException {
+    public String getBody()  {
         try {
             body = EntityUtils.toString(httpResponse.getEntity());
         }

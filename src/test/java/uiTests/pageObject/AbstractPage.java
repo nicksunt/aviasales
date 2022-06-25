@@ -16,7 +16,7 @@ public class AbstractPage {
 
     protected WebDriver driver;
 
-    protected final int WAIT_TIMEOUT_SECONDS = 20;
+    protected final int WAIT_TIMEOUT_SECONDS = 10;
 
     protected static final String URL_HOMEPAGE = "http://aviasales.by/";
 
@@ -27,14 +27,13 @@ public class AbstractPage {
         driver = WebDriverSingleton.getDriver();
 
         PageFactory.initElements(driver, this);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         }
 
     protected WebElement waitForElementToBeClickable(WebElement webElement) {
        return new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS)).until(ExpectedConditions
                 .elementToBeClickable(webElement));
     }
-
 
 
     protected WebElement waitForVisibilityOfElement(WebElement webElement) {

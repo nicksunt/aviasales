@@ -23,7 +23,7 @@ public class AuthorizationPage extends AbstractPage{
     @FindBy(xpath=("//input[@type='password']"))
      WebElement fieldPassword;
 
-    @FindBy(xpath=("//button[@type='button' and contains(@data-test-id, 'button')]"))
+    @FindBy(xpath=("//div[@data-test-id='dropdown']//button"))  // неправильно исправил, переделать обратно надо,т.к. надпись войти меняется на выйти
      WebElement buttonEnterExit;
 
     @FindBy(xpath=("//div[@class ='login_form_container']//div/div"))
@@ -37,9 +37,12 @@ public class AuthorizationPage extends AbstractPage{
         return this;
     }
 
-    public AuthorizationPage openWindowAuthorization() {
+    public AuthorizationPage openWindowAuthorization() throws InterruptedException {
+        Thread.sleep(2000);
         profile.click();
+        Thread.sleep(2000);
         buttonEnterExit.click();
+        Thread.sleep(2000);
         enterWithFB.click();
 
         Set<String> windowId = driver.getWindowHandles();
@@ -50,20 +53,17 @@ public class AuthorizationPage extends AbstractPage{
         return this;
     }
 
-    public AuthorizationPage fillPhoneNumber() throws InterruptedException {
-        Thread.sleep(1000);
-            waitForVisibilityOfElement(fieldPhoneNumber).sendKeys("+375293276354");
+    public AuthorizationPage fillPhoneNumber()  {
+        waitForVisibilityOfElement(fieldPhoneNumber).sendKeys("+375293276354");
             return this;
         }
-    public AuthorizationPage fillPassword() throws InterruptedException {
-        Thread.sleep(1000);
-        fieldPassword.sendKeys("ItAcAdEmIyA");
+    public AuthorizationPage fillPassword() { waitForVisibilityOfElement(fieldPassword).sendKeys("ItAcAdEmIyA");
         return this;
     }
 
-    public AuthorizationPage authorization() throws InterruptedException {
-        Thread.sleep(1000);
-        buttonEnter.click();
+    public AuthorizationPage authorization()  {
+
+        waitForElementToBeClickable(buttonEnter).click();
         return this;
     }
     public void switchToAnotherWindow(){
@@ -77,13 +77,14 @@ public class AuthorizationPage extends AbstractPage{
     }
 
     public String getTextInvalidAuthorization() throws InterruptedException {
+    //  waitForVisibilityOfElement(textForEmptyFieldAuthorization).isDisplayed();
         Thread.sleep(4000);
       return textForEmptyFieldAuthorization.getText();
     }
 
     public String getTextButtonEnterExit() throws InterruptedException {
-        Thread.sleep(5000);
-        profile.click();
+      //  Thread.sleep(5000);
+       waitForElementToBeClickable(profile).click();
         return buttonEnterExit.getText();
     }
 }
